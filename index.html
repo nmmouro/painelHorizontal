@@ -66,27 +66,7 @@ function formatCell(raw,somenteHora=false){
 }
 function parseGviz(text){ const a=text.indexOf('{'), b=text.lastIndexOf('}'); if(a===-1||b===-1) throw new Error('gviz'); return JSON.parse(text.substring(a,b+1));}
 
- function formatarGoogleDate(value) {
-  if (typeof value !== "string" || !value.startsWith("Date(")) {
-    return value;
-  }
-
-  const match = value.match(/Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)/);
-  if (!match) return value;
-
-  let [_, ano, mes, dia, hora, min, seg] = match.map(Number);
-
-  mes += 1; // Google usa mês 0-11
-
-  // ● CASO 1 – DATA REAL
-  if (!(ano === 1899 && dia === 30)) {
-    return `${String(dia).padStart(2, "0")}/${String(mes).padStart(2, "0")}/${ano}`;
-  }
-
-  // ● CASO 2 – HORA (base 1899)
-  return `${String(hora).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
-}
-
+ 
 
 /* render generic */
 function renderGeneric(targetId,sheetName,gvizJson){
@@ -108,10 +88,9 @@ function renderGeneric(targetId,sheetName,gvizJson){
       const v = formatCell(cell,somenteHora);
       html += `<td>${escapeHtml(v)}</td>`;
     });
-    r.forEach(c => {
-  const valor = formatarGoogleDate(c);
-  html += `<td>${valor}</td>`;
-});
+   
+   html += '</tr>';
+  });
 
   html += '</tbody></table>';
   document.getElementById(targetId).innerHTML = html;
