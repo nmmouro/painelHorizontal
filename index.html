@@ -108,8 +108,11 @@ function renderGeneric(targetId,sheetName,gvizJson){
       const v = formatCell(cell,somenteHora);
       html += `<td>${escapeHtml(v)}</td>`;
     });
-    html += '</tr>';
-  });
+    r.forEach(c => {
+  const valor = formatarGoogleDate(c);
+  html += `<td>${valor}</td>`;
+});
+
   html += '</tbody></table>';
   document.getElementById(targetId).innerHTML = html;
 }
